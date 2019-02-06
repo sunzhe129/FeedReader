@@ -96,9 +96,7 @@ $(function() {
         beforeEach(function(done) {
             /* Load the feed randomly. */
             var feedId = Math.floor(Math.random() * allFeeds.length)
-            loadFeed(feedId, function() {
-                done();
-            });
+            loadFeed(feedId, done);
         });
 
         it('have at least a single entry element within the .feed container', function() {
@@ -114,23 +112,15 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-
-        /* Load a feed randomly in beforeAll then record its id and title for latter comparison. */
         var oldTitle;
-        var oldFeedId;
-        beforeAll(function(done) {
-            oldFeedId = Math.floor(Math.random() * allFeeds.length);
+        beforeEach(function(done) {
+            /* Load a feed randomly first then record its id and title for latter comparison. */
+            var oldFeedId = Math.floor(Math.random() * allFeeds.length);
             loadFeed(oldFeedId, function() {
                 oldTitle = $('.header-title')[0].innerText;
-                done();
-            });
-        });
-
-        /* Load a different feed in beforeEach for latter comparison. */
-        beforeEach(function(done) {
-            var newFeedId = (oldFeedId + 1) % allFeeds.length;
-            loadFeed(newFeedId, function() {
-                done();
+                /* Load a different feed for latter comparison. */
+                var newFeedId = (oldFeedId + 1) % allFeeds.length;
+                loadFeed(newFeedId, done);
             });
         });
 
